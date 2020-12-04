@@ -7,8 +7,11 @@ object Test {
 
     val driver = new ChromeDriver()
     try {
-      val data = driver.executeScript("return \"\u007F\";").asInstanceOf[String]
-      println(data.length)
+      val data = driver.executeScript("return \"\u0000\u007F\u0061\u0001\";").asInstanceOf[String]
+      for ((c, i) <- data.zipWithIndex) {
+        val hexStr = Integer.toHexString(c.toInt)
+        println(f"$i: 0x$hexStr")
+      }
     } finally {
       driver.close()
     }
